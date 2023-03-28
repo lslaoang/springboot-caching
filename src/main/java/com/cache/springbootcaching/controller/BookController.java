@@ -39,7 +39,6 @@ public class BookController {
     public ResponseEntity<?> getBooks(){
         List<Book> books = bookService.getAllBooks();
         List<BookModel> bookModels = new ArrayList<>();
-
         for(Book book : books){
             bookModels.add(toBookModel(book));
         }
@@ -49,12 +48,12 @@ public class BookController {
 
     @PutMapping(value = "/book")
     public ResponseEntity<?> updateBook(@RequestBody BookModel bookModel){
-        bookService.updateBook(toBookDto(bookModel));
-        return new ResponseEntity<>(bookService.getBook(bookModel.getId()), HttpStatus.ACCEPTED);
+        Book book = bookService.updateBook(toBookDto(bookModel));
+        return new ResponseEntity<>(book, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping(value = "/book/{id}")
-    public ResponseEntity<?> updateBook(@PathVariable Long id){
+    public ResponseEntity<?> deleteBook(@PathVariable Long id){
         String status = bookService.deleteBook(id);
         return new ResponseEntity<>(status, HttpStatus.ACCEPTED);
     }

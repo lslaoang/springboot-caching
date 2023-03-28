@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -31,11 +32,11 @@ public class BookServiceImpl implements BookService {
     @Cacheable(cacheNames = "books", key = "#id")
     public Book getBook(Long id) {
         LOGGER.info("Book with ID: {} fetched", id);
-        return  bookRepository.getReferenceById(id);
+        Optional<Book> book = bookRepository.findById(id);
+        return book.orElseGet(Book::new);
     }
 
     @Override
-    @Cacheable(cacheNames = "books")
     public List<Book> getAllBooks() {
         LOGGER.info("Finding all books in the record.");
         return  bookRepository.findAll();
@@ -43,9 +44,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @CachePut(cacheNames = "books", key = "#book.id")
-    public void updateBook(Book book) {
-        LOGGER.info("Updating book.");
+    public Book updateBook(Book book) {
+        LOGGER.info("Updating book with id {}.", book.getId());
         bookRepository.updateBook(book.getId(), book.getTitle());
+        return book;
     }
 
     @Override

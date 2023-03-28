@@ -12,7 +12,7 @@ import javax.transaction.Transactional;
 public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Transactional
-    @Modifying
-    @Query(value = "UPDATE Book u set u.title =?2 where u.id=?1")
+    @Modifying(clearAutomatically = true)
+    @Query("update Book u set u.title=?2 where u.id=?1")
     void updateBook(Long id, String title);
 }

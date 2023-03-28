@@ -6,8 +6,8 @@ import com.cache.springbootcaching.model.BookModel;
 public class BookUtil {
     public static Book toBookDto(BookModel bookModel){
         Book book = new Book();
-        book.setId(book.getId());
-        book.setTitle(book.getTitle());
+        book.setId(bookModel.getId());
+        book.setTitle(bookModel.getTitle());
         return book;
     }
 
