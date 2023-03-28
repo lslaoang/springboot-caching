@@ -41,7 +41,7 @@ public class BookController {
     }
 
     @GetMapping(value = "/books")
-    @Cacheable(cacheNames = "books")
+    @Cacheable(cacheNames = "book")
     public ResponseEntity<?> getBook(){
         List<Book> books = bookService.getAllBooks();
         List<BookModel> bookModels = new ArrayList<>();
