@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BookServiceImpl implements BookService {
 
@@ -27,4 +29,11 @@ public class BookServiceImpl implements BookService {
         LOGGER.info("Book with ID: {} fetched", id);
         return  bookRepository.getReferenceById(id);
     }
+
+    @Override
+    public List<Book> getAllBooks() {
+        LOGGER.info("Finding all books in the record.");
+        return  bookRepository.findAll();
+    }
+
 }

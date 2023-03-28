@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.cache.springbootcaching.util.BookUtil.toBookModel;
+
 @Controller
 @RequestMapping("/api/v1")
 public class BookController {
@@ -29,11 +34,24 @@ public class BookController {
     @Cacheable(cacheNames = "book", key = "#id")
     public ResponseEntity<?> getBook(@PathVariable Long id){
         Book book = bookService.get(id);
-        BookModel bookModel = new BookModel();
-        bookModel.setId(book.getId());
-        bookModel.setTitle(book.getTitle());
+        BookModel bookModel = toBookModel(book);
         LOGGER.info("Book information. ID: {}, TITLE: {}.",book.getId(), book.getTitle() );
         return new ResponseEntity<>( bookModel, HttpStatus.ACCEPTED);
+
+    }
+
+    @GetMapping(value = "/books")
+    @Cacheable(cacheNames = "books")
+    public ResponseEntity<?> getBook(){
+        List<Book> books = bookService.getAllBooks();
+        List<BookModel> bookModels = new ArrayList<>();
+
+        for(Book book : books){
+            bookModels.add(toBookModel(book));
+        }
+
+        LOGGER.info("Listing all the books in the repository.");
+        return new ResponseEntity<>( bookModels, HttpStatus.ACCEPTED);
 
     }
 }
