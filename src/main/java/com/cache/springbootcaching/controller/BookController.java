@@ -46,13 +46,13 @@ public class BookController {
         return new ResponseEntity<>( bookModels, HttpStatus.ACCEPTED);
     }
 
-    @PutMapping(value = "/book")
+    @PutMapping(value = "/books")
     public ResponseEntity<?> updateBook(@RequestBody BookModel bookModel){
         Book book = bookService.updateBook(toBookDto(bookModel));
         return new ResponseEntity<>(book, HttpStatus.ACCEPTED);
     }
 
-    @DeleteMapping(value = "/book/{id}")
+    @DeleteMapping(value = "/books/{id}")
     public ResponseEntity<?> deleteBook(@PathVariable Long id){
         String status = bookService.deleteBook(id);
         return new ResponseEntity<>(status, HttpStatus.ACCEPTED);
