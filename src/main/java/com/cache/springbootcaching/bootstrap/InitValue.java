@@ -15,7 +15,7 @@ public class InitValue implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         Book b1 = new Book();
         b1.setId(1L);
         b1.setTitle("History");

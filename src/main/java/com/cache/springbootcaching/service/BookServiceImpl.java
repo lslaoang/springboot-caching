@@ -33,7 +33,14 @@ public class BookServiceImpl implements BookService {
     public Book getBook(Long id) {
         LOGGER.info("Book with ID: {} fetched", id);
         Optional<Book> book = bookRepository.findById(id);
-        return book.orElseGet(Book::new);
+//        book.orElseGet(Book::new);
+        if(book.isEmpty()){
+            //throw exception
+            LOGGER.debug("Book not found.");
+            throw new RuntimeException("Book not found.");
+        } else {
+            return book.get();
+        }
     }
 
     @Override
