@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class BookControllerAdvice {
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<?> runtimeErrorHandler(){
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<NotFoundResponse> runtimeErrorHandler(){
+        NotFoundResponse response = new NotFoundResponse();
+                response.setStatus("404");
+                response.setMessage("Item not found.");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }
